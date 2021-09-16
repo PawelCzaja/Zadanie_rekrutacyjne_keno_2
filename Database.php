@@ -26,7 +26,7 @@
         $sql = "
         SELECT login, haslo, data_rejestracji, adres_email, miasto, kod_pocztowy, nr_telefonu 
         FROM dane_uzytkownikow 
-        LEFT JOIN ustawienia_uzytkownikow 
+        INNER JOIN ustawienia_uzytkownikow 
         ON dane_uzytkownikow.id = ustawienia_uzytkownikow.id_uzytkownika 
         ORDER BY login;";
 
@@ -100,7 +100,5 @@
         mysqli_query($con, $sql1);
         mysqli_query($con, $sql2);
     }
-
-    wypisz()
 
 ?>
