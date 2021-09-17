@@ -1,7 +1,9 @@
 <?php
     
+    // zwraca zmienną con
     function laczenia_z_baza()
     {
+        // Dane łącznenia
         $host = "localhost";
         $user = "root";
         $passwd = "";
@@ -20,6 +22,7 @@
     }
 
 
+    // metoda wypisująca wszystkie rekordy w bazie dancyh w formacie json
     function wypisz()
     {
         $con = laczenia_z_baza();
@@ -54,21 +57,25 @@
     }
 
 
+    // metoda wstawiająca do bazy danych użytkownika jednoczesnie do obu tabel
     function insert($login, $haslo, $email, $miasto, $kod_pocztowy, $nr_telefonu)
     {
         $con = laczenia_z_baza();
+        // sql do wstawiana do tabeli ustawienia
         $sql1 = "
         INSERT INTO `ustawienia_uzytkownikow`
         (`adres_email`, `miasto`, `kod_pocztowy`, `nr_telefonu`) 
         VALUES 
         ('".$email."','".$miasto."','".$kod_pocztowy."','".$nr_telefonu."')";
 
+        // sql do wstawiana do tabeli dane
         $sql2 = "
         INSERT INTO `dane_uzytkownikow`
         (`login`, `haslo`) 
         VALUES 
         ('".$login."','".$haslo."')";
 
+        //wykonywanie kwerend
         mysqli_query($con, $sql1);
         mysqli_query($con, $sql2);
     }
@@ -76,9 +83,12 @@
     function delete($id)
     {
         $con = laczenia_z_baza();
+        // sql do usuwania z tabeli ustawienia
         $sql1 = "DELETE FROM `ustawienia_uzytkownikow` WHERE id_uzytkownika = ".$id."";
+        // sql do usuwania z tabeli dane
         $sql2 = "DELETE FROM `dane_uzytkownikow` WHERE id = ".$id."";
 
+        //wykonywanie kwerend
         mysqli_query($con, $sql1);
         mysqli_query($con, $sql2);
     }
@@ -86,7 +96,9 @@
     function update($id, $login, $haslo, $data_rejestracji, $email, $miasto, $kod_pocztowy, $nr_telefonu)
     {
         $con = laczenia_z_baza();
+        // sql do wstawiana do tabeli dane
         $sql1 = "UPDATE `dane_uzytkownikow` SET `id`='".$id."',`login`='".$login."',`haslo`='".$haslo."' WHERE id = ".$id;
+         // sql do wstawiana do tabeli ustawienia
         $sql2 = "
         UPDATE `ustawienia_uzytkownikow` 
         SET `id_uzytkownika`='".$id."',
@@ -97,8 +109,77 @@
         `nr_telefonu`='".$nr_telefonu."' 
         WHERE id_uzytkownika = ".$id;
 
+        //wykonywanie kwerend
         mysqli_query($con, $sql1);
         mysqli_query($con, $sql2);
+    }
+
+
+    // funkcje sprawdzające poprawność danych
+    function sprawdz_email($email)
+    {
+        if(strpos($email, "@") && strlen($email) < 100)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    function sprawdz_miasto($miasto) // dziala tez dla loginu i dla hasla
+    {
+        if(strlen($miasto)<100)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    function sprawdz_kod_pocztowy($kod_pocztowy)
+    {
+        if(strlen($_POST['kod_pocztowy'])==6 && substr($_POST['kod_pocztowy'], -4, 1) == "-")
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    function sprawdz_nr_telefonu($nr_telefonu)
+    {
+        if(strlen($nr_telefonu) == 9 && is_numeric($nr_telefonu))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    function sprawdz_id($id)
+    {
+        if(is_numeric($id))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    function validateDate($date, $format = 'Y-m-d H:i:s')
+    {
+        $d = DateTime::createFromFormat($format, $date);
+        return $d && $d->format($format) == $date;
     }
 
 ?>
