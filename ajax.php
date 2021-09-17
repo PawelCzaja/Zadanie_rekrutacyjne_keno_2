@@ -81,10 +81,6 @@
             return get;
         }
 
-        //insert_api("Adam", "12345", "Adam123@poczta.pl", "Warszawa", "00-001", "111222333");
-        //delete_api(100);
-        //update_api("35", "Adam", "12345", "2021-09-17", "Adam123@poczta.pl", "Katowice", "40-750", "111222333");
-
 
     </script>
 
