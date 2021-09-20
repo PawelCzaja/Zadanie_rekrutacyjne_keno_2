@@ -4,12 +4,12 @@
     {
         // sprawdza poprawność danych
         if(
-            sprawdz_email($_POST['email']) && 
-            sprawdz_kod_pocztowy($_POST['kod_pocztowy']) && 
-            sprawdz_nr_telefonu($_POST['nr_telefonu']) && 
-            sprawdz_miasto($_POST['miasto']) &&
-            sprawdz_miasto($_POST['haslo']) &&
-            sprawdz_miasto($_POST['login']))
+            preg_match('/^(.{1,40})@(.{1,20})\\.(pl|gr|com|edu)$/', $_POST['email']) && 
+            preg_match('/^([0-9]{2}-[0-9]{3})$/', $_POST['kod_pocztowy']) && 
+            preg_match('/^([0-9]{9})$/', $_POST['nr_telefonu']) && 
+            preg_match('/^([A-Z|a-z|ą|Ą|ć|Ć|ł|Ł|ń|Ń|ó|Ó|ś|Ś|ź|Ź|ż|Ż]{3,100})$/', $_POST['miasto']) &&
+            preg_match('/^(.{4,100})$/', $_POST['haslo']) &&
+            preg_match('/^([A-Z|a-z|0-9]{3,100})$/', $_POST['login']))
         {
             insert(
                 $_POST['login'], 

@@ -3,7 +3,7 @@
     if(isset($_POST["id"]))
     {
         // sprawdza poprawność danych
-        if(sprawdz_id($_POST['id']))
+        if(preg_match('/^([0-9]+)$/', $_POST['id']))
         {
             delete($_POST["id"]);
         }

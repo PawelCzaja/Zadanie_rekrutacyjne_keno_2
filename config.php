@@ -22,7 +22,7 @@
     }
 
 
-    // metoda wypisująca wszystkie rekordy w bazie dancyh w formacie json
+    // funkcja wypisująca wszystkie rekordy w bazie dancyh w formacie json
     function wypisz()
     {
         $con = laczenia_z_baza();
@@ -115,71 +115,12 @@
     }
 
 
-    // funkcje sprawdzające poprawność danych
-    function sprawdz_email($email)
-    {
-        if(strpos($email, "@") && strlen($email) < 100)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-    function sprawdz_miasto($miasto) // dziala tez dla loginu i dla hasla
-    {
-        if(strlen($miasto)<100)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-    function sprawdz_kod_pocztowy($kod_pocztowy)
-    {
-        if(strlen($_POST['kod_pocztowy'])==6 && substr($_POST['kod_pocztowy'], -4, 1) == "-")
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-    function sprawdz_nr_telefonu($nr_telefonu)
-    {
-        if(strlen($nr_telefonu) == 9 && is_numeric($nr_telefonu))
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-    function sprawdz_id($id)
-    {
-        if(is_numeric($id))
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
+    // sprawdzanie poprawności formatu daty
     function validateDate($date, $format = 'Y-m-d H:i:s')
     {
         $d = DateTime::createFromFormat($format, $date);
         return $d && $d->format($format) == $date;
     }
+
 
 ?>
